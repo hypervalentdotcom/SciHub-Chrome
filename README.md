@@ -38,3 +38,6 @@ A Chrome extension that auto-detects DOIs and gives you one-click access to the 
 
 Tech stack: Manifest V3, vanilla JavaScript, Chrome storage API.
 
+---
+
+*Last updated: July 24, 2026*
