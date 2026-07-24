@@ -13,7 +13,7 @@ Otherwise, paste a DOI, a title, or a URL and click Search.
 
 Short description
 
-A Chrome extension that auto-detects DOIs and gives you one-click access to the corresponding paper on Sci-Hub. Inspired by the Lean Library model, it scans the page you are viewing for a DOI (via citation metadata or the URL) and lets you open the matching article instantly from the toolbar popup, without needing to search or copy paste anything.
+A Chrome extension that auto-detects DOIs and gives you one-click access to the corresponding paper on Sci-Hub. Inspired by the Lean Library extension, it scans the page you are viewing for a DOI (via citation metadata or the URL) and lets you open the matching article instantly from the toolbar popup, without needing to search or copy paste anything.
 
 Features:
 - Automatic DOI detection on academic pages (Google Scholar, PubMed, journal websites, etc.)
