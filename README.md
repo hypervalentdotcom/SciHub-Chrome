@@ -19,7 +19,7 @@ Features:
 - Automatic DOI detection on academic pages (Google Scholar, PubMed, journal websites, etc.)
 - One-click popup search, pre-filled with the detected DOI when available
 - Manual lookup by DOI, title, or URL when auto-detection is not available
-- Clean, minimal interface in a custom red (B8342A) color scheme
+- Clean, minimal interface in the SciHub custom red (B8342A) color scheme
 - Lightweight, no tracking, no data collection
 
 Tech stack: Manifest V3, vanilla JavaScript, Chrome storage API.
