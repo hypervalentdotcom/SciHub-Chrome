@@ -1,10 +1,10 @@
 ## Disclaimer
 
-This project is provided "as is", with no warranty of any kind, express or implied. I am not responsible for the shit you do with it, how you use it, or any consequences (legal, technical, or otherwise) that may result from its use. Use at your own risk and make sure you comply with the laws applicable in your jurisdiction (maybe you live in Russia who knows).
+This project is provided "as is", with no warranty of any kind, express or implied. **I am not responsible for the shit you do with it, how you use it, or any consequences (legal, technical, or otherwise) that may result from its use.** Use at your own risk and make sure you comply with the laws applicable in your jurisdiction (maybe you live in Russia who knows).
 
 This extension is 100% vibe-coded using Claude Sonnet 5 Thinking from Perplexity's environment. Logos generated with ChatGPT 5.6 Sol image gen. 
 
-Feel free to use it, modify it, and share it however you like, no attribution required.
+**Feel free to use it, modify it, and share it however you like, no attribution required.**
 
 ## SciHub Access - Installation Guide
 
