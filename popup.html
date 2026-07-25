@@ -1,64 +1,168 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<title>SciHub Access</title>
-<style>
-  body {
-    width: 300px;
-    font-family: Arial, sans serif;
-    padding: 16px;
-    background: #ffffff;
-  }
-  h1 {
-    font-size: 16px;
-    margin: 0 0 12px 0;
-    color: #B8342A;
-    font-weight: bold;
-    border-bottom: 2px solid #B8342A;
-    padding-bottom: 8px;
-  }
-  input {
-    width: 100%;
-    padding: 8px;
-    box-sizing: border-box;
-    border: 1px solid #B8342A;
-    border-radius: 6px;
-    font-size: 13px;
-    margin-bottom: 10px;
-    color: #333;
-  }
-  input:focus {
-    outline: none;
-    box-shadow: 0 0 0 2px rgba(184,52,42,0.3);
-  }
-  button {
-    width: 100%;
-    padding: 10px;
-    background: #B8342A;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    font-size: 13px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background 0.2s;
-  }
-  button:hover {
-    background: #942a22;
-  }
-  #statut {
-    font-size: 12px;
-    color: #B8342A;
-    margin-top: 10px;
-  }
-</style>
-</head>
-<body>
-  <h1>SciHub Access</h1>
-  <input id="entree" type="text" placeholder="Paste a DOI, title, or URL">
-  <button id="rechercher">Search on Sci Hub</button>
-  <div id="statut"></div>
-  <script src="popup.js"></script>
-</body>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>CASdb</title>
+    <link rel="stylesheet" href="vendor/ChemDoodleWeb.css">
+    <link rel="stylesheet" href="popup.css?v=1.6.0">
+  </head>
+  <body>
+    <main class="app">
+      <header class="app-header">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 32 32">
+            <path d="m8.5 11.5 7.5-4.3 7.5 4.3v9L16 24.8l-7.5-4.3Z"></path>
+          </svg>
+        </span>
+        <h1>CASdb</h1>
+      </header>
+
+      <section class="editor-frame" aria-label="Molecular structure editor">
+        <canvas id="sketcher" aria-label="ChemDoodle drawing area"></canvas>
+      </section>
+
+      <button id="searchButton" class="search-button" type="button">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="11" cy="11" r="6.5"></circle>
+          <path d="m16 16 4.25 4.25"></path>
+        </svg>
+        <span>Find CAS</span>
+      </button>
+
+      <section id="resultPanel" class="result-panel" aria-live="polite" aria-busy="false" hidden>
+        <div id="loadingState" class="loading-state" hidden>
+          <span class="spinner" aria-hidden="true"></span>
+          <p>Searching PubChem…</p>
+        </div>
+
+        <div id="errorState" class="error-state" hidden>
+          <strong id="errorTitle">Search failed</strong>
+          <p id="errorMessage"></p>
+        </div>
+
+        <div id="resultState" class="result-state" hidden>
+          <div class="cas-row">
+            <strong id="casValue" class="cas-value"></strong>
+            <button id="copyButton" class="copy-button" type="button" aria-label="Copy CAS number" title="Copy CAS number">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <rect x="8" y="7" width="10" height="12" rx="1.5"></rect>
+                <path d="M6 16H5.5A1.5 1.5 0 0 1 4 14.5v-10A1.5 1.5 0 0 1 5.5 3h8A1.5 1.5 0 0 1 15 4.5V5"></path>
+              </svg>
+            </button>
+          </div>
+          <p class="compound-meta">
+            <span id="compoundName"></span>
+            <span aria-hidden="true">·</span>
+            <a id="pubchemLink" href="#" target="_blank" rel="noreferrer"></a>
+          </p>
+
+          <nav class="spectra-links" aria-label="Spectral databases">
+            <a id="spectrabaseLink" class="spectrum-link" href="#" target="_blank" rel="noreferrer" data-state="loading">
+              <span>
+                <strong>SpectraBase</strong>
+                <small id="spectrabaseStatus">Checking…</small>
+              </span>
+              <svg viewBox="0 0 20 20" aria-hidden="true">
+                <path d="M8 5H5.75A1.75 1.75 0 0 0 4 6.75v7.5C4 15.22 4.78 16 5.75 16h7.5A1.75 1.75 0 0 0 15 14.25V12"></path>
+                <path d="M11 4h5v5M16 4l-7 7"></path>
+              </svg>
+            </a>
+          </nav>
+
+          <details id="suppliersDisclosure" class="compact-disclosure suppliers-disclosure">
+            <summary>
+              <span>Suppliers</span>
+              <svg viewBox="0 0 20 20" aria-hidden="true">
+                <path d="m5.5 7.5 4.5 4.5 4.5-4.5"></path>
+              </svg>
+            </summary>
+            <nav class="supplier-grid" aria-label="Search this CAS with suppliers">
+              <a class="supplier-link" data-supplier="sigma" href="#" target="_blank" rel="noreferrer">
+                <span><strong>Sigma-Aldrich</strong><small>Merck</small></span>
+                <svg viewBox="0 0 20 20" aria-hidden="true">
+                  <path d="M8 5H5.75A1.75 1.75 0 0 0 4 6.75v7.5C4 15.22 4.78 16 5.75 16h7.5A1.75 1.75 0 0 0 15 14.25V12"></path>
+                  <path d="M11 4h5v5M16 4l-7 7"></path>
+                </svg>
+              </a>
+              <a class="supplier-link" data-supplier="tci" href="#" target="_blank" rel="noreferrer">
+                <span><strong>TCI</strong><small>Tokyo Chemical Industry</small></span>
+                <svg viewBox="0 0 20 20" aria-hidden="true">
+                  <path d="M8 5H5.75A1.75 1.75 0 0 0 4 6.75v7.5C4 15.22 4.78 16 5.75 16h7.5A1.75 1.75 0 0 0 15 14.25V12"></path>
+                  <path d="M11 4h5v5M16 4l-7 7"></path>
+                </svg>
+              </a>
+              <a class="supplier-link" data-supplier="fluorochem" href="#" target="_blank" rel="noreferrer">
+                <span><strong>Fluorochem</strong><small>UK catalogue</small></span>
+                <svg viewBox="0 0 20 20" aria-hidden="true">
+                  <path d="M8 5H5.75A1.75 1.75 0 0 0 4 6.75v7.5C4 15.22 4.78 16 5.75 16h7.5A1.75 1.75 0 0 0 15 14.25V12"></path>
+                  <path d="M11 4h5v5M16 4l-7 7"></path>
+                </svg>
+              </a>
+              <a class="supplier-link" data-supplier="abcr" href="#" target="_blank" rel="noreferrer">
+                <span><strong>abcr</strong><small>CAS search</small></span>
+                <svg viewBox="0 0 20 20" aria-hidden="true">
+                  <path d="M8 5H5.75A1.75 1.75 0 0 0 4 6.75v7.5C4 15.22 4.78 16 5.75 16h7.5A1.75 1.75 0 0 0 15 14.25V12"></path>
+                  <path d="M11 4h5v5M16 4l-7 7"></path>
+                </svg>
+              </a>
+              <a class="supplier-link" data-supplier="enamine" href="#" target="_blank" rel="noreferrer">
+                <span><strong>Enamine</strong><small>Building blocks</small></span>
+                <svg viewBox="0 0 20 20" aria-hidden="true">
+                  <path d="M8 5H5.75A1.75 1.75 0 0 0 4 6.75v7.5C4 15.22 4.78 16 5.75 16h7.5A1.75 1.75 0 0 0 15 14.25V12"></path>
+                  <path d="M11 4h5v5M16 4l-7 7"></path>
+                </svg>
+              </a>
+              <a class="supplier-link" data-supplier="cymit" href="#" target="_blank" rel="noreferrer">
+                <span><strong>CymitQuimica</strong><small>Products by CAS</small></span>
+                <svg viewBox="0 0 20 20" aria-hidden="true">
+                  <path d="M8 5H5.75A1.75 1.75 0 0 0 4 6.75v7.5C4 15.22 4.78 16 5.75 16h7.5A1.75 1.75 0 0 0 15 14.25V12"></path>
+                  <path d="M11 4h5v5M16 4l-7 7"></path>
+                </svg>
+              </a>
+            </nav>
+          </details>
+
+          <details id="propertiesDisclosure" class="compact-disclosure properties-disclosure">
+            <summary>
+              <span>Physicochemical properties</span>
+              <svg viewBox="0 0 20 20" aria-hidden="true">
+                <path d="m5.5 7.5 4.5 4.5 4.5-4.5"></path>
+              </svg>
+            </summary>
+            <dl class="properties-grid">
+              <div>
+                <dt>Molecular weight</dt>
+                <dd id="molecularWeightValue"></dd>
+              </div>
+              <div>
+                <dt>Density</dt>
+                <dd id="densityValue"></dd>
+              </div>
+              <div>
+                <dt>State at 20 °C</dt>
+                <dd id="physicalStateValue"></dd>
+              </div>
+              <div>
+                <dt>Melting point</dt>
+                <dd id="meltingPointValue"></dd>
+              </div>
+              <div>
+                <dt>Boiling point</dt>
+                <dd id="boilingPointValue"></dd>
+              </div>
+              <div>
+                <dt>Formula</dt>
+                <dd id="formulaValue"></dd>
+              </div>
+            </dl>
+          </details>
+        </div>
+      </section>
+    </main>
+
+    <script src="vendor/ChemDoodleWeb.js"></script>
+    <script src="vendor/ChemDoodleWeb-uis.js"></script>
+    <script type="module" src="popup.js?v=1.6.0"></script>
+  </body>
 </html>

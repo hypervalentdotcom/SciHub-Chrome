@@ -1,43 +1,85 @@
+# CASdb
+
 ## Disclaimer
 
-This project is provided "as is", with no warranty of any kind, express or implied. **I am not responsible for the shit you do with it, how you use it, or any consequences (legal, technical, or otherwise) that may result from its use.** Use at your own risk and make sure you comply with the laws applicable in your jurisdiction (maybe you live in Russia who knows).
+CASdb is provided "as is". It is a PubChem-based research shortcut, not an
+official CAS Registry lookup, so verify critical information before ordering
+25 kg of something toxic, explosive, or unnecessarily expensive. A valid
+checksum does not guarantee that a CAS number is authoritative.
 
-This extension is 100% vibe-coded using Claude Sonnet 5 Thinking from Perplexity's environment. Logos generated with ChatGPT 5.6 Sol image gen. 
+This extension was **100% vibe-coded by Codex, powered by GPT-5.6 Sol with Very
+High reasoning effort**.
 
-**Feel free to use it, modify it, and share it however you like, no attribution required.**
+## CASdb - Installation Guide
 
-## SciHub Access - Installation Guide
-
-1. Download the zip file provided.
-2. Unzip it into a folder on your computer. Keep this folder in its final location before loading it into Chrome, since moving or deleting it later will break the extension.
+1. Download the ZIP file.
+2. Unzip it into a permanent folder. Moving or deleting it later will break the
+   extension.
 3. Open Chrome and go to `chrome://extensions`.
-4. Enable **Developer mode** in the top right corner, if not already active.
-5. Click **Load unpacked** and select the unzipped folder.
-6. The extension icon will appear in your toolbar.
-7. If you already have a paper open on an academic site (Google Scholar, PubMed, a journal website, etc.), reload the page so the extension can detect the DOI. This is only needed once, every page you open afterward will be detected automatically.
+4. Enable **Developer mode** in the top-right corner.
+5. Click **Load unpacked**.
+6. Select the unzipped folder containing `manifest.json`.
+7. Pin **CASdb** to the Chrome toolbar.
+
+No build step or dependency installation is required.
 
 ### How it works:
 
-Click the extension icon in the Chrome toolbar to open the popup.
-If a DOI is automatically detected on the page you are viewing, it will be pre-filled in the search field.
-Otherwise, paste a DOI, a title, or a URL and click Search.
+Open CASdb, draw one molecule in the ChemDoodle editor, and click **Find CAS**.
+The extension searches PubChem for the exact structure and displays the first
+checksum-valid CAS number found in its synonyms.
 
-**NB:** Sci-Hub generally does not have the most recent papers in its database. If a search doesn't return a result, it's most likely because the paper simply isn't indexed yet. In that case, you can submit a paid request through Sci-Hub's internal system, [Sci-Net](https://sci-net.xyz/), to have the paper added.
+You can also view physicochemical properties, check SpectraBase, and search the
+CAS directly at six chemical suppliers. No copying the CAS into six different
+catalogues, no reopening tabs, and no wondering whether a spectrum even exists:
+the useful next steps are already attached to the result. The structure and
+result stay saved when the popup closes and are removed when the structure is
+edited or cleared.
+
+**NB:** If PubChem does not recognize the structure or does not list a valid CAS
+number, CASdb will not invent one just to make the search feel productive.
 
 ## Short description
 
-A Chrome extension that auto-detects DOIs and gives you one-click access to the corresponding paper on Sci-Hub. Inspired by the Lean Library extension, it scans the page you are viewing for a DOI (via citation metadata or the URL) and lets you open the matching article instantly from the toolbar popup, without needing to search or copy paste anything.
+Tired of SciFinder refusing to start, demanding another login because a session
+is active, or taking 1,000 years to load your structure? CASdb gets straight to
+the CAS number, useful properties, SpectraBase references, and ready-made
+supplier searches.
+
+SciFinder remains essential for planning a synthesis and cross-referencing the
+literature. CASdb is simply the faster option when you only need a CAS number
+and want to check spectra or commercial availability.
 
 ### Features:
 
-- Automatic DOI detection on academic pages (Google Scholar, PubMed, journal websites, etc.)
-- One-click popup search, pre-filled with the detected DOI when available
-- Manual lookup by DOI, title, or URL when auto-detection is not available
-- Clean, minimal interface in the SciHub custom red (B8342A) color scheme
-- Lightweight, no tracking, no data collection
+- Integrated ChemDoodle molecular editor
+- Exact-structure search through PubChem
+- CAS format and checksum validation
+- Useful physicochemical properties
+- One-click SpectraBase reference search
+- Ready-made CAS searches at Sigma-Aldrich, TCI, Fluorochem, abcr,
+  EnamineStore, and CymitQuimica
+- Persistent structure and result
+- Lightweight, with no tracking or analytics
 
-Tech stack: Manifest V3, vanilla JavaScript, Chrome storage API.
+## Licence
+
+ChemDoodle Web Components 11.0.0 is provided by iChemLabs under GPLv3. CASdb
+and its distribution must therefore comply with GPLv3; the complete licence and
+third-party notice are included in `LICENSE` and `NOTICE.md`. Contact iChemLabs
+for a proprietary ChemDoodle licence.
+
+No other third-party runtime library is bundled. PubChem, SpectraBase, and the
+supplier catalogues are external services; their respective terms apply when
+they are accessed.
+
+- ChemDoodle: <https://web.chemdoodle.com/>
+- ChemDoodle licensing: <https://web.chemdoodle.com/installation/license>
+- PubChem PUG REST: <https://pubchem.ncbi.nlm.nih.gov/docs/pug-rest>
+
+Tech stack: Chrome Manifest V3, vanilla JavaScript, ChemDoodle Web Components,
+Chrome Storage API, PubChem PUG REST/PUG View, and SpectraBase.
 
 ---
 
-*Last updated: July 24, 2026*
+*Last updated: July 25, 2026*
